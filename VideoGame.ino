@@ -24,21 +24,22 @@ int incorrect[1][2] = {
 
 void setup() {
   Serial.begin(9600);
+  while(!Serial);
+  Serial.println("Welcome to Simon Says! This game is about hitting the right buttons when the colors come on screen. Red means the left button, blue means the right. Try to get a high score!");
   CircuitPlayground.begin();
   randomSeed(analogRead(0));
   pinMode(leftButton, INPUT_PULLDOWN);
-  attachInterrupt(digitalPinToInterrupt(leftButton), redHit, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(leftButton), redHit, FALLING);
   pinMode(rightButton, INPUT_PULLDOWN);
-  attachInterrupt(digitalPinToInterrupt(rightButton), blueHit, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(rightButton), blueHit, FALLING);
 }
 
 
 void loop() {
+  delay(2000);
   for(int i = 0; i <= 20; i++);
   {
-    int LED_num = random(10);
     int blueFlashLevelOne;
-    int redFlashLevelOne;
     if (redHit){
       ++score;
     }
@@ -72,9 +73,8 @@ void loop() {
       delay(1);
     }
   delay(5000);
-  for(int i = 0; i <= 10; i++);
+  for(int i = 0; i <= 100; i++);
   {
-    int LED_num = random(10);
     int blueFlashLevelThree;
     int redFlashLevelThree;
     if (redHit){
@@ -92,7 +92,6 @@ void loop() {
     }
   delay(5000);
 }
-
 void redFlashLevelOne()
 {
   int LED_num = random(10);
@@ -101,7 +100,22 @@ void redFlashLevelOne()
   CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
   delay(1000);
 }
-
+void redFlashLevelTwo()
+{
+  int LED_num = random(10);
+  CircuitPlayground.setPixelColor(LED_num, 255, 0, 0);
+  delay(500);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
+  delay(500);
+}
+void redFlashLevelThree()
+{
+  int LED_num = random(10);
+  CircuitPlayground.setPixelColor(LED_num, 255, 0, 0);
+  delay(300);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
+  delay(300);
+}
 void blueFlashLevelOne()
 {
   int LED_num = random(10);
@@ -110,7 +124,22 @@ void blueFlashLevelOne()
   CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
   delay(1000);
 }
-
+void blueFlashLevelTwo()
+{
+  int LED_num = random(10);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 255);
+  delay(500);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
+  delay(500);
+}
+void blueFlashLevelThree()
+{
+  int LED_num = random(10);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 255);
+  delay(300);
+  CircuitPlayground.setPixelColor(LED_num, 0, 0, 0);
+  delay(300);
+}
 void redHit()
 {
   leftButtonFlag = 1;
